@@ -59,25 +59,25 @@ include 'includes/header.php';
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="vintage-card transform hover:scale-105 transition-transform duration-300 shadow-xl bg-white/90">
                     <div class="flex items-center mb-4">
-                        <div class="w-16 h-16 bg-[#8B4513] text-white rounded-full flex items-center justify-center text-xl font-bold mr-4">15</div>
+                        <div class="w-16 h-16 bg-[#8B4513] text-white rounded-full flex items-center justify-center text-xl font-bold mr-4">30</div>
                         <div>
                             <h3 class="text-2xl font-['SF_Pro_Display'] tracking-tight text-[#8B4513]">Cultural Festival</h3>
-                            <p class="text-gray-600">March 15, 2024</p>
+                            <p class="text-gray-600">April 30, 2025</p>
                         </div>
                     </div>
                     <p class="text-gray-700">Join us for a day of cultural performances, workshops, and exhibitions.</p>
-                    <a href="#" class="inline-block mt-4 text-[#8B4513] hover:text-[#A0522D] transition-colors duration-300">Register Now →</a>
+                 
                 </div>
                 <div class="vintage-card transform hover:scale-105 transition-transform duration-300 shadow-xl bg-white/90">
                     <div class="flex items-center mb-4">
                         <div class="w-16 h-16 bg-[#8B4513] text-white rounded-full flex items-center justify-center text-xl font-bold mr-4">22</div>
                         <div>
                             <h3 class="text-2xl font-['SF_Pro_Display'] tracking-tight text-[#8B4513]">Art Workshop</h3>
-                            <p class="text-gray-600">March 22, 2024</p>
+                            <p class="text-gray-600">May 22, 2025</p>
                         </div>
                     </div>
                     <p class="text-gray-700">Learn traditional Indian art techniques from master artists.</p>
-                    <a href="#" class="inline-block mt-4 text-[#8B4513] hover:text-[#A0522D] transition-colors duration-300">Register Now →</a>
+                  
                 </div>
             </div>
         </div>

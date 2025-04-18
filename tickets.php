@@ -150,4 +150,5 @@ include 'includes/header.php';
     <div class="fixed left-0 top-0 h-full w-2 bg-gradient-to-b from-[#FF9933] via-white to-[#138808]"></div>
     <div class="fixed right-0 top-0 h-full w-2 bg-gradient-to-b from-[#FF9933] via-white to-[#138808]"></div>
 
+    <script src="js/main.js"></script>
 <?php include 'includes/footer.php'; ?> 
