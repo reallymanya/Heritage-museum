@@ -103,6 +103,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
                             <label class="block mb-2">Password</label>
                             <input type="password" name="password" class="w-full p-2 border rounded" placeholder="Enter your password" required>
                         </div>
+                        <div>
+                            <label class ="inline-flex items-center">
+                                <input type="checkbox" name="remember_me" class ="form-checkbox">
+                                <span class="ml-2">Remember me</span>
+                    </label>
+                    </div>
                         <button type="submit" name="login" class="w-full vintage-button">
                             Login
                         </button>
