@@ -95,6 +95,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
                         </div>
                     <?php endif; ?>
                     <form method="POST" action="" class="space-y-6">
+                        <div class="mb-4">
+                            <label class="block mb-2">Login as:</label>
+                            <div class="flex items-center space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="user_type" value="user" class="form-radio" checked>
+                                    <span class="ml-2">User</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="user_type" value="admin" class="form-radio">
+                                    <span class="ml-2">Admin</span>
+                                </label>
+                            </div>
+                        </div>
                         <div>
                             <label class="block mb-2">Username</label>
                             <input type="text" name="username" class="w-full p-2 border rounded" placeholder="Enter your username" required>
@@ -104,11 +117,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
                             <input type="password" name="password" class="w-full p-2 border rounded" placeholder="Enter your password" required>
                         </div>
                         <div>
-                            <label class ="inline-flex items-center">
-                                <input type="checkbox" name="remember_me" class ="form-checkbox">
-                                <span class="ml-2">Remember me</span>
-                    </label>
-                    </div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="remember_me" class="form-checkbox">
+                                <span class="ml-2">Remember Me</span>
+                            </label>
+                        </div>
                         <button type="submit" name="login" class="w-full vintage-button">
                             Login
                         </button>
@@ -153,5 +166,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     </footer>
 
     <script src="js/main.js"></script>
+    <script>
+        function selectUserType(type) {
+            if (type === 'user') {
+                alert('User login selected');
+            } else if (type === 'admin') {
+                alert('Admin login selected');
+            }
+        }
+    </script>
 </body>
 </html>
