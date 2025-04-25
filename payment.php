@@ -97,7 +97,7 @@ foreach ($required_vars as $var) {
             display: block;
             width: 100%;
             padding: 15px;
-            background: #1a73e8;
+            background: #F9991AFF;
             color: white;
             border: none;
             border-radius: 5px;
@@ -106,7 +106,7 @@ foreach ($required_vars as $var) {
             transition: background 0.3s;
         }
         .pay-button:hover {
-            background: #1557b0;
+            background: #F49D45FF;
         }
         .secure-badge {
             text-align: center;
@@ -205,7 +205,7 @@ foreach ($required_vars as $var) {
                         contact: '<?php echo addslashes($_SESSION['mobile_number']); ?>'
                     },
                     theme: {
-                        color: '#1a73e8'
+                        color: '#FF922CFF'
                     }
                 };
 

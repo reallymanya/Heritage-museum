@@ -66,7 +66,7 @@ try {
     $_SESSION['ticket_number'] = $ticketNumber;
     
     // Clear booking session variables
-    $booking_vars = ['show_id', 'show_name', 'show_price', 'num_tickets', 'visitor_name', 'show_time', 'mobile_number', 'total_amount', 'booking_state'];
+    $booking_vars = ['show_id', 'show_name', 'show_price', 'num_tickets', 'visitor_name', 'show_time', 'mobile_number',  'total_amount', 'booking_state'];
     foreach ($booking_vars as $var) {
         unset($_SESSION[$var]);
     }

@@ -47,7 +47,7 @@ unset($_SESSION['amount']);
                             <p><strong>Amount Paid:</strong> ₹<?php echo htmlspecialchars(number_format($amount / 100, 2)); ?></p>
                         </div>
                         <div class="mt-4">
-                            <a href="home.php" class="btn btn-primary">Back to Home</a>
+                            <a href="index.php" class="btn btn-primary">Back to Home</a>
                         </div>
                     </div>
                 </div>

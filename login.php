@@ -115,13 +115,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
                         <div>
                             <label class="block mb-2">Password</label>
                             <input type="password" name="password" class="w-full p-2 border rounded" placeholder="Enter your password" required>
+                            <div class="text-right mt-2">
+                                <a href="forgot-password.php" class="text-sm text-[#8B4513] hover:text-[#A0522D]">Forgot Password?</a>
+                            </div>
                         </div>
-                        <div>
+                        <!-- <div>
                             <label class="inline-flex items-center">
                                 <input type="checkbox" name="remember_me" class="form-checkbox">
                                 <span class="ml-2">Remember Me</span>
                             </label>
-                        </div>
+                        </div> -->
                         <button type="submit" name="login" class="w-full vintage-button">
                             Login
                         </button>

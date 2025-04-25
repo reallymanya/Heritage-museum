@@ -46,27 +46,28 @@ function handleChatbotMessage($message, $userId) {
             if (strtolower($message) === 'book') {
                 $_SESSION['booking_state'] = 'select_show';
                 $response = "Please select a show by entering its number:\n\n";
-                $response .= "1. Mughal Era Treasures - ₹100\n";
-                $response .= "   Explore the opulent world of Mughal art and architecture\n\n";
-                $response .= "2. Ancient Indian Civilizations - ₹75\n";
-                $response .= "   Journey through time to discover India's ancient heritage\n\n";
-                $response .= "3. Modern Art Revolution - ₹150\n";
-                $response .= "   Witness the evolution of Indian art in the modern era\n\n";
-                $response .= "4. Digital Art & Technology - ₹150\n";
-                $response .= "   Explore the intersection of traditional art and modern technology\n";
+                
+                // Fetch shows from database
+                $shows = getShowsFromDatabase($conn);
+                foreach ($shows as $id => $show) {
+                    $response .= "{$id}. {$show['name']} - ₹{$show['price']}\n";
+                    $response .= "   {$show['description']}\n\n";
+                }
             } else {
-                $response = "Welcome to Museum Booking System!\n";
+                $response = "Welcome to Museum Booking System!\nAvailable shows:\n\n";
+                
+                // Fetch shows from database for welcome message
+                $shows = getShowsFromDatabase($conn);
+                foreach ($shows as $show) {
+                    $response .= "{$show['name']} - ₹{$show['price']}\n";
+                    $response .= "{$show['description']}\n\n";
+                }
                 $response .= "Type 'book' to start booking tickets.";
             }
             break;
 
         case 'select_show':
-            $shows = [
-                1 => ['name' => 'Mughal Era Treasures', 'price' => 100.00],
-                2 => ['name' => 'Ancient Indian Civilizations', 'price' => 75.00],
-                3 => ['name' => 'Modern Art Revolution', 'price' => 150.00],
-                4 => ['name' => 'Digital Art & Technology', 'price' => 150.00]
-            ];
+            $shows = getShowsFromDatabase($conn);
 
             if (isset($shows[$message])) {
                 $show = $shows[$message];
@@ -78,7 +79,7 @@ function handleChatbotMessage($message, $userId) {
                 $response .= "Price per ticket: ₹{$show['price']}\n\n";
                 $response .= "How many tickets would you like to book?";
             } else {
-                $response = "Please select a valid show number (1-4).";
+                $response = "Please select a valid show number.";
             }
             break;
 
@@ -128,11 +129,19 @@ function handleChatbotMessage($message, $userId) {
         case 'mobile_number':
             if (preg_match("/^[0-9]{10}$/", $message)) {
                 $_SESSION['mobile_number'] = $message;
-                
-                // Calculate total amount
+                $_SESSION['booking_state'] = 'working_address';
+                $response = "Please enter your working address:";
+            } else {
+                $response = "Please enter a valid 10-digit mobile number.";
+            }
+            break;
+
+        case 'working_address':
+            if (!empty($message)) {
+                $_SESSION['working_address'] = $message;
+
                 $_SESSION['total_amount'] = $_SESSION['show_price'] * $_SESSION['num_tickets'];
-                
-                // Generate booking summary and payment link
+
                 $response = "Great! Here's your booking summary:\n\n";
                 $response .= "Show: {$_SESSION['show_name']}\n";
                 $response .= "Number of Tickets: {$_SESSION['num_tickets']}\n";
@@ -140,14 +149,14 @@ function handleChatbotMessage($message, $userId) {
                 $response .= "Total Amount: ₹{$_SESSION['total_amount']}\n";
                 $response .= "Visitor Name: {$_SESSION['visitor_name']}\n";
                 $response .= "Show Time: {$_SESSION['show_time']}\n";
-                $response .= "Mobile: {$_SESSION['mobile_number']}\n\n";
-                
-                // Add payment button with proper amount
+                $response .= "Mobile: {$_SESSION['mobile_number']}\n";
+                $response .= "Working Address: {$_SESSION['working_address']}\n\n";
+
                 $response .= "[[PAYMENT_BUTTON:" . $_SESSION['total_amount'] . "]]";
-                
+
                 $_SESSION['booking_state'] = 'payment_pending';
             } else {
-                $response = "Please enter a valid 10-digit mobile number.";
+                $response = "Please enter a valid working address.";
             }
             break;
 
@@ -167,5 +176,23 @@ function handleChatbotMessage($message, $userId) {
     }
 
     return $response;
+}
+
+// Function to fetch shows from DB
+function getShowsFromDatabase($conn) {
+    $shows = array();
+    $query = "SELECT id, name, price, description FROM shows ORDER BY id";
+    $result = $conn->query($query);
+    
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $shows[$row['id']] = [
+                'name' => $row['name'],
+                'price' => $row['price'],
+                'description' => $row['description']
+            ];
+        }
+    }
+    return $shows;
 }
 ?>

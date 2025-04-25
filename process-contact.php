@@ -28,11 +28,12 @@ if (!isset($conn) || !$conn) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $phone = $_POST['phone'];
     $subject = $_POST['subject'];
     $message = $_POST['message'];
     
     // Validate input
-    if (empty($name) || empty($email) || empty($subject) || empty($message)) {
+    if (empty($name) || empty($email) || empty($phone) || empty($subject) || empty($message)) {
         $_SESSION['error'] = "All fields are required";
         header("Location: contact.php");
         exit();
@@ -40,6 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error'] = "Invalid email format";
+        header("Location: contact.php");
+        exit();
+    }
+
+    // Validate phone number format (10 digits)
+    if (!preg_match("/^[0-9]{10}$/", $phone)) {
+        $_SESSION['error'] = "Phone number must be 10 digits";
         header("Location: contact.php");
         exit();
     }
@@ -90,6 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h3>New Contact Message</h3>
             <p><strong>Name:</strong> {$name}</p>
             <p><strong>Email:</strong> {$email}</p>
+            <p><strong>Phone:</strong> {$phone}</p>
             <p><strong>Subject:</strong> {$subject}</p>
             <p><strong>Message:</strong><br>{$message}</p>
         ";
@@ -112,34 +121,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->AltBody = "Thank you for contacting Heritage Museum. We received your message.";
         $mail->send();
 
-        // Insert into database
-        try {
-            $stmt = $conn->prepare("INSERT INTO contact_messages (name, email, subject, message, created_at) VALUES (?, ?, ?, ?, NOW())");
-            $stmt->bind_param("ssss", $name, $email, $subject, $message);
-            
-            if ($stmt->execute()) {
-                $_SESSION['success'] = "Thank you for your message! We will get back to you soon.";
-            } else {
-                throw new Exception("Database error: " . $stmt->error);
-            }
-            
-            $stmt->close();
-        } catch (Exception $e) {
-            $_SESSION['error'] = "Error saving your message. Please try again later.";
-            error_log("Database Error: " . $e->getMessage());
+        // Store in database
+        $stmt = $conn->prepare("INSERT INTO contact_messages (name, email, phone, subject, message, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+        $stmt->bind_param("sssss", $name, $email, $phone, $subject, $message);
+        
+        if ($stmt->execute()) {
+            $_SESSION['success'] = "Thank you for your message! We will get back to you soon.";
+        } else {
+            throw new Exception("Error storing message in database");
         }
-
+        
+        header("Location: contact.php");
+        exit();
+        
     } catch (Exception $e) {
-        $_SESSION['error'] = "Error sending email. Please try again later.";
-        error_log("Mailer Error: " . $mail->ErrorInfo);
+        $_SESSION['error'] = "Message could not be sent. Error: " . $e->getMessage();
+        header("Location: contact.php");
+        exit();
     }
-
-    $conn->close();
-    
-    // Store success message in session and redirect back to contact page
-    $_SESSION['contact_success'] = true;
-    header("Location: contact.php");
-    exit();
 } else {
     $_SESSION['error'] = "Invalid request method";
     header("Location: contact.php");
